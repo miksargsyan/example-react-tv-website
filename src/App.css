@@ -38,3 +38,8 @@ img {
   display: flex;
   flex-direction: column;
 }
+
+a {
+  color: aliceblue;
+  text-decoration: none;
+}
