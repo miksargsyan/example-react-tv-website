@@ -75,6 +75,7 @@ const HeaderItem = (props) => {
   );
 };
 
+// TODO : make ul Grid
 const Header = () => {
   return (
     <>
