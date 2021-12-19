@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import getMovies from "../apis/getMovies";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const ImageRow = () => {
   const [hovering, setHovering] = useState(-1);
@@ -9,11 +9,10 @@ const ImageRow = () => {
     <Grid
       container
       direction="row"
-      justifyContent="space-around"
-      alignItems="center"
+      justifyContent="space-between"
       wrap="nowrap"
       sx={{
-        overflow: "auto",
+        overflow: "visible",
       }}
       spacing={1}
       marginLeft="3.5%"
@@ -28,7 +27,7 @@ const ImageRow = () => {
               transition: "transform 300ms ease 100ms",
             },
             hovering === index && {
-              transform: "scale(1.25)",
+              transform: "scale(1.5)",
             },
           ]}
           onMouseEnter={() => {
@@ -38,12 +37,14 @@ const ImageRow = () => {
             setHovering(-1);
           }}
         >
-          <img
-            src={`${image.image}`}
-            srcSet={`${image.image}`}
-            alt={"Not Found"}
-            loading="lazy"
-          />
+          <img src={`${image.image}`} alt={"Not Found"} loading="lazy" />
+          {hovering === index ? (
+            <Typography variant="body1" color="white">
+              {image.title}
+            </Typography>
+          ) : (
+            <></>
+          )}
         </Grid>
       ))}
       ;
