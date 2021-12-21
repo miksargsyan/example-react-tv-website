@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import getMovies from "../apis/getMovies";
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const calculateNumberOfElements = () => {
   let numberOfElements;
@@ -14,7 +16,6 @@ const calculateNumberOfElements = () => {
     numberOfElements = 6;
   }
 
-  console.log(numberOfElements);
   return numberOfElements;
 };
 
@@ -25,6 +26,25 @@ const ImageRow = () => {
     window.innerWidth,
   ]);
   const images = getMovies();
+
+  const [viewImages, setViewImages] = useState(images.slice(numberOfElements));
+  const [viewIndex, setViewIndex] = useState(0);
+
+  const moveRow = (pos) => {
+    let newPos = viewIndex + pos;
+    while (newPos < 0 || newPos + numberOfElements > images.length) {
+      if (newPos < 0) {
+        newPos++;
+      } else {
+        newPos--;
+      }
+    }
+
+    if (viewIndex !== newPos) {
+      setViewIndex(newPos);
+    }
+  };
+
   useEffect(() => {
     let str = "";
     if (hovering !== -1) {
@@ -37,22 +57,23 @@ const ImageRow = () => {
     }
     setTransform(str);
   }, [hovering, numberOfElements]);
+
+  useEffect(() => {
+    setViewImages(images.slice(viewIndex, viewIndex + numberOfElements));
+  }, [numberOfElements, images, viewIndex]);
+
   const movieImages = (
     <Grid
       container
       direction="row"
-      justifyContent="space-between"
       wrap="nowrap"
       sx={{
         overflowX: "clip",
         overflowY: "visible",
       }}
-      spacing={1}
-      marginLeft="3.5%"
-      marginRight="3.5%"
-      maxWidth="93%"
+      maxWidth="92%"
     >
-      {images.map((image, index) => (
+      {viewImages.map((image, index) => (
         <Grid
           key={image.id}
           item
@@ -78,20 +99,51 @@ const ImageRow = () => {
           }}
         >
           <img src={`${image.image}`} alt={"Not Found"} loading="lazy" />
-          {hovering === index ? (
-            <Typography variant="body1" color="white">
-              {image.title}
-            </Typography>
-          ) : (
-            <></>
-          )}
         </Grid>
       ))}
       ;
     </Grid>
   );
 
-  return <div>{movieImages}</div>;
+  return (
+    <div>
+      <Grid container maxWidth="100%" direction="row" wrap="nowrap">
+        <Grid
+          item
+          key="BackwardIcon"
+          sx={{
+            flex: "0 0 4%",
+          }}
+        >
+          <Button
+            sx={{
+              height: "100%",
+            }}
+            onClick={() => moveRow(-numberOfElements)}
+          >
+            <ArrowBackIosIcon fontSize="large"></ArrowBackIosIcon>
+          </Button>
+        </Grid>
+        {movieImages}
+        <Grid
+          item
+          key="ForwardIcon"
+          sx={{
+            flex: "0 0 4%",
+          }}
+        >
+          <Button
+            sx={{
+              height: "100%",
+            }}
+            onClick={() => moveRow(numberOfElements)}
+          >
+            <ArrowForwardIosIcon fontSize="large"></ArrowForwardIosIcon>
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
+  );
 };
 
 export default ImageRow;
