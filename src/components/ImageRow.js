@@ -30,7 +30,7 @@ const ImageRow = () => {
   const [viewImages, setViewImages] = useState(images.slice(numberOfElements));
   const [viewIndex, setViewIndex] = useState(0);
 
-  const moveRow = (pos) => {
+  const canMoveRow = (pos) => {
     let newPos = viewIndex + pos;
     while (newPos < 0 || newPos + numberOfElements > images.length) {
       if (newPos < 0) {
@@ -41,6 +41,15 @@ const ImageRow = () => {
     }
 
     if (viewIndex !== newPos) {
+      return [true, newPos];
+    }
+
+    return [false, viewIndex];
+  };
+
+  const moveRow = (pos) => {
+    const [canMove, newPos] = canMoveRow(pos);
+    if (canMove === true) {
       setViewIndex(newPos);
     }
   };
