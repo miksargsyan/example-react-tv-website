@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import getMovies from "../apis/getMovies";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
@@ -116,6 +116,15 @@ const ImageRow = () => {
 
   return (
     <div>
+      <Typography
+        color="white"
+        fontWeight="bold"
+        variant="h6"
+        marginLeft="4%"
+        marginBottom="4px"
+      >
+        My List
+      </Typography>
       <Grid container maxWidth="100%" direction="row" wrap="nowrap">
         <Grid
           item
