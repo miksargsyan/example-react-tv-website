@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo } from "react";
-import getMovies from "../apis/getMovies";
 import { Button, Grid, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -19,13 +18,13 @@ const calculateNumberOfElements = () => {
   return numberOfElements;
 };
 
-const ImageRow = () => {
+const ImageRow = (props) => {
   const [hovering, setHovering] = useState(-1);
   const [transform, setTransform] = useState("");
   const numberOfElements = useMemo(calculateNumberOfElements, [
     window.innerWidth,
   ]);
-  const images = getMovies();
+  const images = props.movies;
 
   const [viewImages, setViewImages] = useState(images.slice(numberOfElements));
   const [viewIndex, setViewIndex] = useState(0);
@@ -120,12 +119,18 @@ const ImageRow = () => {
         color="white"
         fontWeight="bold"
         variant="h6"
-        marginLeft="4%"
-        marginBottom="4px"
+        marginLeft="5%"
+        marginBottom="8px"
       >
-        My List
+        {props.title}
       </Typography>
-      <Grid container maxWidth="100%" direction="row" wrap="nowrap">
+      <Grid
+        container
+        maxWidth="100%"
+        direction="row"
+        wrap="nowrap"
+        marginBottom="3%"
+      >
         <Grid
           item
           key="BackwardIcon"

@@ -1,5 +1,6 @@
 header {
   display: flex;
+  background: black;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -36,7 +37,7 @@ img {
 }
 
 .App {
-  background-color: black;
+  background: linear-gradient(#000000, #141414);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
